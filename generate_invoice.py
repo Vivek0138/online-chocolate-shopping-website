@@ -1,7 +1,7 @@
 # generate_invoice.py
 import os
 from reportlab.lib.pagesizes import A4
-from reportlab.platypus import SimpleDocTemplate, Table, TableStyle, Paragraph, Spacer
+from reportlab.platypus import SimpleDocTemplate, Table, TableStyle, Paragraph, Spacer, Link
 from reportlab.lib import colors
 from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
 from reportlab.lib.enums import TA_CENTER
@@ -37,7 +37,10 @@ def create_invoice(quantities, total_price, chocolates):
         company_name = Paragraph("<b>Swiss-IN</b>", styles['Heading1'])
         contact_details = Paragraph("<b>Contact Details:</b> <br/>Address: 123 Chocolate Lane, Ahmedabad, Gujarat, India<br/>Phone: +91 1234567890<br/>Email: info@swissin.com", styles['BodyText'])
 
-        content = [company_name, Spacer(1, 10), contact_details, Spacer(1, 10), table, Spacer(1, 10), Paragraph("Thank you for your purchase!", centered_style)]
+        thank_you = Paragraph("Thank you for your purchase!", centered_style)
+        link = Paragraph('<a href="https://velvet-bliss-chocolatori-emxhfcv.gamma.site/">Visit our website</a>', centered_style)
+
+        content = [company_name, Spacer(1, 10), contact_details, Spacer(1, 10), table, Spacer(1, 10), thank_you, Spacer(1, 10), link]
 
         doc.build(content)
         return invoice_id
