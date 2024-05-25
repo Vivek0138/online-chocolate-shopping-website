@@ -11,12 +11,12 @@ app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', 'your_secret_key')
 app.config['UPLOAD_FOLDER'] = 'invoices'
 
 chocolates = {
-    'huzzelnut': {'name': 'Huzzelnut Chocolate', 'price': 100},
-    'milk': {'name': 'Milk Chocolate', 'price': 150},
-    'dark': {'name': 'Dark Chocolate', 'price': 200},
-    'frey': {'name': 'Frey Chocolate', 'price': 99},
-    'lindt': {'name': 'Lindt Chocolate', 'price': 169},
-    'cailler': {'name': 'Cailler Chocolate', 'price': 299}
+    'huzzelnut': {'name': 'Nutty Nirvana', 'price': 160},
+    'milk': {'name': 'Gourment Galaxy', 'price': 250},
+    'dark': {'name': 'Bitter Bliss', 'price': 500},
+    'frey': {'name': 'Frey Chocolate Bar', 'price': 300},
+    'lindt': {'name': 'Choco Delish', 'price': 280},
+    'cailler': {'name': 'Fudge Fusion', 'price': 300}
 }
 
 class OrderForm(FlaskForm):
