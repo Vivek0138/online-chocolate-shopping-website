@@ -1,3 +1,4 @@
+# generate_invoice.py
 import os
 from reportlab.lib.pagesizes import A4
 from reportlab.platypus import SimpleDocTemplate, Table, TableStyle, Paragraph, Spacer
@@ -13,7 +14,7 @@ def create_invoice(quantities, total_price, chocolates):
     data = [['Sr. No.', 'Product', 'Quantity', 'Price']]
     sr_no = 1
     for choco, qty in quantities.items():
-        if qty > 0:  # Only add to invoice if quantity is greater than 0
+        if qty > 0:
             data.append([str(sr_no), chocolates[choco]['name'], str(qty), f'{qty * chocolates[choco]['price']} Rs'])
             sr_no += 1
     data.append(['', '', 'Total', f'{total_price} Rs'])
@@ -23,8 +24,8 @@ def create_invoice(quantities, total_price, chocolates):
         ('TEXTCOLOR', (0, 0), (-1, 0), colors.whitesmoke),
         ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
         ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
-        ('FONTSIZE', (0, 0), (-1, -1), 14),  # Increase font size
-        ('BOTTOMPADDING', (0, 0), (-1, 0), 18),  # Increase bottom padding
+        ('FONTSIZE', (0, 0), (-1, -1), 14),
+        ('BOTTOMPADDING', (0, 0), (-1, 0), 18),
         ('BACKGROUND', (0, 1), (-1, -1), colors.beige),
         ('GRID', (0, 0), (-1, -1), 1, colors.black)
     ])
@@ -38,3 +39,4 @@ def create_invoice(quantities, total_price, chocolates):
 
     doc.build(content)
     return invoice_id
+
