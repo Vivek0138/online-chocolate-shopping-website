@@ -48,21 +48,22 @@ def index():
 def payment():
     if request.method == 'POST':
         quantities = {choco: int(qty) for choco, qty in request.form.items() if choco in chocolates}
-        total_price = int(request.form['total_price'])
+        total_price = float(request.form['total_price'])  # Convert to float
         invoice_id = create_invoice(quantities, total_price, chocolates)
+        if invoice_id is None:
+            return "Error generating invoice", 500
         return redirect(url_for('download_invoice', invoice_id=invoice_id))
     
     quantities = request.args.get('quantities')
     total_price = request.args.get('total_price')
-    if quantities and total_price:
+    if quantities:
         quantities = eval(quantities)
-        total_price = float(total_price)
     else:
         quantities = {}
-        total_price = 0
     
     chosen_chocolates = {choco: {'name': chocolates[choco]['name'], 'quantity': quantities.get(choco, 0)} for choco in chocolates}
     return render_template('payment.html', quantities=quantities, total_price=total_price, chosen_chocolates=chosen_chocolates)
+
 
 @app.route('/invoice/<invoice_id>')
 def download_invoice(invoice_id):
