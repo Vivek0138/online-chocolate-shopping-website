@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Swiss-IN</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: #f8f9fa;
+            font-family: Arial, sans-serif;
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 40px;
+            font-size: 3em;
+            color: #6c757d;
+        }
+        .card {
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s;
+            margin: 10px 0;
+        }
+        .card:hover {
+            transform: scale(1.05);
+        }
+        .card-img-top {
+            height: 200px;
+            object-fit: cover;
+        }
+        .card-title {
+            font-size: 1.25em;
+            font-weight: bold;
+            color: #343a40;
+        }
+        .card-text {
+            font-size: 1.1em;
+            color: #6c757d;
+        }
+        .form-group label {
+            font-weight: bold;
+            color: #495057;
+        }
+        .btn-primary {
+            background-color: #007bff;
+            border-color: #007bff;
+            font-size: 1.2em;
+            padding: 10px 20px;
+        }
+        .btn-primary:hover {
+            background-color: #0056b3;
+            border-color: #004085;
+        }
+        .cards-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        .buy-button-container {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container mt-5">
+        <h1>Swiss-IN</h1>
+        <form method="POST">
+            {{ form.hidden_tag() }}
+            <div class="cards-container">
+                {% for key, value in chocolates.items() %}
+                <div class="col-md-4 mt-4 d-flex align-items-stretch">
+                    <div class="card">
+                        <img src="{{ url_for('static', filename='images/' + key + '.jpg') }}" class="card-img-top" alt="{{ value['name'] }}">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ value['name'] }}</h5>
+                            <p class="card-text">Price: ₹{{ value['price'] }}</p>
+                            <div class="form-group">
+                                <label for="{{ key }}_qty">{{ value['name'] }} Quantity:</label>
+                                <input type="number" class="form-control" id="{{ key }}_qty" name="{{ key }}_qty" value="0" min="0">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            <div class="buy-button-container">
+                <button type="submit" class="btn btn-primary">Buy Now</button>
+            </div>
+        </form>
+    </div>
+</body>
+</html>

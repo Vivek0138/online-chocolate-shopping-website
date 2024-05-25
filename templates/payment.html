@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Payment</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        .payment-method-logo {
+            width: 50px;
+            height: auto;
+            margin-right: 10px;
+        }
+        .payment-section {
+            border: 1px solid #dee2e6;
+            border-radius: 5px;
+            padding: 20px;
+            margin-bottom: 20px;
+            background-color: #f8f9fa;
+        }
+        .payment-section img {
+            margin-right: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container mt-5">
+        <h1 class="mb-4">Payment</h1>
+        <h4>Chosen Chocolates:</h4>
+        <ul>
+            {% for choco, details in chosen_chocolates.items() %}
+                {% if details.quantity > 0 %}
+                    <li><strong>{{ details.name }}:</strong> {{ details.quantity }}</li>
+                {% endif %}
+            {% endfor %}
+        </ul>
+        <p><strong>Total Price:</strong> ₹{{ total_price }}</p>
+        <form method="POST">
+            <div class="form-group">
+                <label for="payment_method"><strong>Select Payment Method:</strong></label>
+                <select class="form-control" id="payment_method" name="payment_method">
+                    <option value="gpay">GPay</option>
+                    <option value="credit_card">Credit Card</option>
+                    <option value="debit_card">Debit Card</option>
+                </select>
+            </div>
+
+            <div id="gpay_fields" class="payment-section" style="display: none;">
+                <img src="https://img.icons8.com/?size=100&id=am4ltuIYDpQ5&format=png&color=000000" alt="GPay" class="payment-method-logo">
+                <div class="form-group mt-3">
+                    <label for="upi_id">Enter UPI ID:</label>
+                    <input type="text" class="form-control" id="upi_id" name="upi_id" placeholder="Enter your UPI ID">
+                </div>
+            </div>
+
+            <div id="credit_card_fields" class="payment-section" style="display: none;">
+                <div class="d-flex align-items-center mb-3">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/0/04/Visa.svg" alt="Visa" class="payment-method-logo">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/a/a4/Mastercard_2019_logo.svg" alt="Mastercard" class="payment-method-logo">
+                    <img src="https://img.icons8.com/?size=100&id=5JTcb83oDGrE&format=png&color=000000" alt="RuPay" class="payment-method-logo">
+                </div>
+                <div class="form-group">
+                    <label for="card_number">Card Number:</label>
+                    <input type="text" class="form-control" id="card_number" name="card_number" placeholder="Enter card number">
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-4">
+                        <label for="cvv">CVV:</label>
+                        <input type="text" class="form-control" id="cvv" name="cvv" placeholder="Enter CVV">
+                    </div>
+                    <div class="form-group col-md-8">
+                        <label for="expiry_date">Expiry Date:</label>
+                        <input type="text" class="form-control" id="expiry_date" name="expiry_date" placeholder="MM/YY">
+                    </div>
+                </div>
+            </div>
+
+            <div id="debit_card_fields" class="payment-section" style="display: none;">
+                <div class="d-flex align-items-center mb-3">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/0/04/Visa.svg" alt="Visa" class="payment-method-logo">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/a/a4/Mastercard_2019_logo.svg" alt="Mastercard" class="payment-method-logo">
+                    <img src="https://img.icons8.com/?size=100&id=5JTcb83oDGrE&format=png&color=000000" class="payment-method-logo">
+                </div>
+                <div class="form-group">
+                    <label for="card_number">Card Number:</label>
+                    <input type="text" class="form-control" id="card_number" name="card_number" placeholder="Enter card number">
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-4">
+                        <label for="cvv">CVV:</label>
+                        <input type="text" class="form-control" id="cvv" name="cvv" placeholder="Enter CVV">
+                    </div>
+                    <div class="form-group col-md-8">
+                        <label for="expiry_date">Expiry Date:</label>
+                        <input type="text" class="form-control" id="expiry_date" name="expiry_date" placeholder="MM/YY">
+                    </div>
+                </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Make Payment</button>
+            <input type="hidden" name="total_price" value="{{ total_price }}">
+            {% for choco, qty in quantities.items() %}
+                <input type="hidden" name="{{ choco }}" value="{{ qty }}">
+            {% endfor %}
+        </form>
+    </div>
+
+    <script>
+        document.getElementById('payment_method').addEventListener('change', function() {
+            var selectedOption = this.value;
+            var gpayFields = document.getElementById('gpay_fields');
+            var creditCardFields = document.getElementById('credit_card_fields');
+            var debitCardFields = document.getElementById('debit_card_fields');
+
+            if (selectedOption === 'gpay') {
+                gpayFields.style.display = 'block';
+                creditCardFields.style.display = 'none';
+                debitCardFields.style.display = 'none';
+            } else if (selectedOption === 'credit_card') {
+                gpayFields.style.display = 'none';
+                creditCardFields.style.display = 'block';
+                debitCardFields.style.display = 'none';
+            } else if (selectedOption === 'debit_card') {
+                gpayFields.style.display = 'none';
+                creditCardFields.style.display = 'none';
+                debitCardFields.style.display = 'block';
+            }
+        });
+    </script>
+</body>
+</html>
