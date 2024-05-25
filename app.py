@@ -7,7 +7,7 @@ import os
 from generate_invoice import create_invoice
 
 app = Flask(__name__)
-app.config['SECRET_KEY'] = 'your_secret_key'
+app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', 'your_secret_key')
 app.config['UPLOAD_FOLDER'] = 'invoices'
 
 chocolates = {
@@ -54,10 +54,12 @@ def payment():
     
     quantities = request.args.get('quantities')
     total_price = request.args.get('total_price')
-    if quantities:
+    if quantities and total_price:
         quantities = eval(quantities)
+        total_price = float(total_price)
     else:
         quantities = {}
+        total_price = 0
     
     chosen_chocolates = {choco: {'name': chocolates[choco]['name'], 'quantity': quantities.get(choco, 0)} for choco in chocolates}
     return render_template('payment.html', quantities=quantities, total_price=total_price, chosen_chocolates=chosen_chocolates)
@@ -70,3 +72,4 @@ if __name__ == '__main__':
     if not os.path.exists(app.config['UPLOAD_FOLDER']):
         os.makedirs(app.config['UPLOAD_FOLDER'])
     app.run(debug=True)
+
