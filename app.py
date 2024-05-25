@@ -47,7 +47,6 @@ def index():
 @app.route('/payment', methods=['GET', 'POST'])
 def payment():
     if request.method == 'POST':
-        # Process payment and generate invoice as before
         quantities = {choco: int(qty) for choco, qty in request.form.items() if choco in chocolates}
         total_price = int(request.form['total_price'])
         invoice_id = create_invoice(quantities, total_price, chocolates)
@@ -56,7 +55,7 @@ def payment():
     quantities = request.args.get('quantities')
     total_price = request.args.get('total_price')
     if quantities:
-        quantities = eval(quantities)  # convert string representation of dict to dict
+        quantities = eval(quantities)
     else:
         quantities = {}
     
