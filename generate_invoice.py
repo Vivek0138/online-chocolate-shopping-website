@@ -7,7 +7,7 @@ from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
 from reportlab.lib.enums import TA_CENTER
 
 def create_invoice(quantities, total_price, chocolates):
-    invoice_id = f"invoice_{int(os.urandom(4).hex(), 16)}.pdf"
+    invoice_id = f"invoice_{int.from_bytes(os.urandom(4), 'big')}.pdf"
     invoice_path = os.path.join('invoices', invoice_id)
 
     doc = SimpleDocTemplate(invoice_path, pagesize=A4)
@@ -15,7 +15,7 @@ def create_invoice(quantities, total_price, chocolates):
     sr_no = 1
     for choco, qty in quantities.items():
         if qty > 0:
-            data.append([str(sr_no), chocolates[choco]['name'], str(qty), f'{qty * chocolates[choco]['price']} Rs'])
+            data.append([str(sr_no), chocolates[choco]['name'], str(qty), f'{qty * chocolates[choco]["price"]} Rs'])
             sr_no += 1
     data.append(['', '', 'Total', f'{total_price} Rs'])
 
@@ -39,4 +39,3 @@ def create_invoice(quantities, total_price, chocolates):
 
     doc.build(content)
     return invoice_id
-
